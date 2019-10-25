@@ -4,14 +4,8 @@ header('Content-Type: text/html; charset=utf-8');
 //error_reporting(E_ALL);
 require_once('model/model.php');
 $modelo=new Modelo();
-if(isset($_POST['tipo'])){
-	$tipo=$_POST['tipo'];
-	if($tipo=='reglas'){
-		$result = $modelo->traerReglas();
-		if(isset($result)){
-			echo $result;
-		}
-	}
+    $result = $modelo->traerReglas();
+/*
 	if($tipo=='clasificaciones'){
 		$result = $modelo->traerClasificaciones();
 		if(isset($result)){
@@ -91,5 +85,5 @@ if(isset($_POST['tipo'])){
 			echo $result;
 		}
 	}
-}
+}*/
 ?>
