@@ -2,9 +2,11 @@
 header('Content-Type: text/html; charset=utf-8');
 //ini_set("display_errors", "1");
 //error_reporting(E_ALL);
-require_once('model/model.php');
+require_once('modelo/modelo.php');
 $modelo=new Modelo();
-    $result = $modelo->traerReglas();
+    $result = $modelo->traerCliente();
+    print_r ($result);
+
 /*
 	if($tipo=='clasificaciones'){
 		$result = $modelo->traerClasificaciones();
