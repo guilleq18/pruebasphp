@@ -1,0 +1,155 @@
+[1mdiff --git a/index.php b/index.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4009ec9[m
+[1m--- /dev/null[m
+[1m+++ b/index.php[m
+[36m@@ -0,0 +1,10 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m[32mrequire_once("persistencia/modelo.php");[m
+[32m+[m
+[32m+[m[32m//modelo es una instancia de la clase Modelo del script modelo.php[m
+[32m+[m[32m$modelo = new Modelo();[m
+[32m+[m[32m//resultado lo igualo a la consulta realizada por el metodo traerCLiente[m
+[32m+[m[32m$result = $modelo->traerCliente();[m
+[32m+[m[32m//imprimo el contenido de result[m
+[32m+[m[32mprint_r ( $result);[m
+\ No newline at end of file[m
+[1mdiff --git a/persistencia/config.php b/persistencia/config.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..c212b02[m
+[1m--- /dev/null[m
+[1m+++ b/persistencia/config.php[m
+[36m@@ -0,0 +1,6 @@[m
+[32m+[m[32m<?php[m
+[32m+[m	[32mdefine('DBUSER','sa');[m
+[32m+[m	[32mdefine('DBPASS','sa');[m
+[32m+[m	[32mdefine('DBHOST','LAP02\GUILLEDB');[m
+[32m+[m	[32mdefine('DBNAME','Torneria');[m
+[32m+[m[32m?>[m
+[1mdiff --git a/persistencia/db.php b/persistencia/db.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..0528abd[m
+[1m--- /dev/null[m
+[1m+++ b/persistencia/db.php[m
+[36m@@ -0,0 +1,91 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m	[32mrequire_once('config.php');[m
+[32m+[m	[32mclass db{[m
+[32m+[m		[32mprivate $user; /*usuario de la bd*/[m
+[32m+[m		[32mprivate $pass; /*password de la bd*/[m
+[32m+[m		[32mprivate $conn; /*Conector*/[m
+[32m+[m		[32mprivate $nameDB; /*nombre de la bd*/[m
+[32m+[m		[32mprivate $host; /*Host de la bd*/[m
+[32m+[m
+[32m+[m		[32mpublic function __construct(){[m
+[32m+[m[41m			[m
+[32m+[m			[32m$this->user = DBUSER;[m
+[32m+[m			[32m$this->pass = DBPASS;[m
+[32m+[m			[32m$this->nameBD = DBNAME;[m
+[32m+[m			[32m$this->host = DBHOST;[m
+[32m+[m[41m			[m
+[32m+[m			[32m$this->ConnectBD();[m[41m	[m
+[32m+[m		[32m}[m
+[32m+[m		[32m/*Conecta a la BD*/[m
+[32m+[m		[32mprivate function ConnectBD(){[m
+[32m+[m			[32mtry{[m
+[32m+[m				[32m$this->conn = new PDO("sqlsrv:server=".$this->host.";Database=".$this->nameBD, $this->user,$this->pass);[m
+[32m+[m				[32m$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);[m
+[32m+[m				[32m$this->conn->exec("SET NAMES 'utf8';");[m
+[32m+[m				[32mecho 'conexion exitosa';[m
+[32m+[m
+[32m+[m			[32m}catch(PDOException $e){[m
+[32m+[m				[32m"Error: ".$e->getMessage();[m
+[32m+[m[41m				[m
+[32m+[m			[32m}[m
+[32m+[m		[32m}[m
+[32m+[m		[32m/*Hace la consulta sql*/[m
+[32m+[m		[32mpublic function hacerConsulta($sql){[m
+[32m+[m			[32mtry{[m
+[32m+[m				[32m$stmt = $this->conn->prepare($sql);[m
+[32m+[m				[32m$stmt->execute();[m
+[32m+[m				[32m$result = $stmt->fetchAll(PDO::FETCH_ASSOC);[m
+[32m+[m				[32m/*Convierto a JSON*/[m
+[32m+[m			[32m//	$result = json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));[m
+[32m+[m[41m				[m
+[32m+[m				[32mreturn $result;[m
+[32m+[m
+[32m+[m			[32m}catch(PDOException $e){[m
+[32m+[m				[32mecho "Error: ". $e->getMessage();[m
+[32m+[m			[32m}[m
+[32m+[m
+[32m+[m	[32m   }[m
+[32m+[m[32m       /*Hace insert sql*/[m
+[32m+[m[32m        public function hacerInsert($sql){[m
+[32m+[m			[32mtry{[m
+[32m+[m				[32m$stmt = $this->conn->prepare($sql);[m
+[32m+[m				[32m$stmt->execute();[m
+[32m+[m
+[32m+[m				[32m$result =  $this->conn->lastInsertId();[m
+[32m+[m[41m				[m
+[32m+[m				[32mreturn $result;[m
+[32m+[m
+[32m+[m			[32m}catch(PDOException $e){[m
+[32m+[m				[32mecho "Error: ". $e->getMessage();[m
+[32m+[m			[32m}[m
+[32m+[m
+[32m+[m	[32m   }[m
+[32m+[m[32m        /*Hace update/delete sql*/[m
+[32m+[m[32m        public function hacerCambio($sql){[m
+[32m+[m			[32mtry{[m
+[32m+[m				[32m$stmt = $this->conn->prepare($sql);[m
+[32m+[m				[32mreturn $stmt->execute();[m
+[32m+[m
+[32m+[m			[32m}catch(PDOException $e){[m
+[32m+[m				[32mecho "Error: ". $e->getMessage();[m
+[32m+[m			[32m}[m
+[32m+[m
+[32m+[m	[32m   }[m
+[32m+[m
+[32m+[m	[32m   /*Hace la consulta sql*/[m
+[32m+[m		[32mpublic function hacerConsultaPhp($sql){[m
+[32m+[m			[32mtry{[m
+[32m+[m				[32m$stmt = $this->conn->prepare($sql);[m
+[32m+[m				[32m$stmt->execute();[m
+[32m+[m
+[32m+[m				[32m$result = $stmt->fetchAll(PDO::FETCH_CLASS);[m
+[32m+[m[41m				[m
+[32m+[m				[32mreturn $result;[m
+[32m+[m
+[32m+[m			[32m}catch(PDOException $e){[m
+[32m+[m				[32mecho "Error: ". $e->getMessage();[m
+[32m+[m			[32m}[m
+[32m+[m		[32m}[m
+[32m+[m[32m}[m
+[32m+[m[32m?>[m
+[1mdiff --git a/persistencia/modelo.php b/persistencia/modelo.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..28bea56[m
+[1m--- /dev/null[m
+[1m+++ b/persistencia/modelo.php[m
+[36m@@ -0,0 +1,22 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m[32mrequire_once('db.php');[m
+[32m+[m[32mclass Modelo {[m
+[32m+[m[32m    //variable en donde guardo los datos de la conexion[m
+[32m+[m[32m    private $gestorBD;[m
+[32m+[m
+[32m+[m[32m    public function __construct() {[m
+[32m+[m[32m        //instancio los datos de la conexion en la variable gestorBD[m
+[32m+[m[32m        $this->gestorBD = new db;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    //metodo que realiza la consulta de clientes[m
+[32m+[m[32m    public function traerCliente()[m
+[32m+[m[32m    {[m
+[32m+[m[32m        $sql = "SELECT * FROM clientes";[m
+[32m+[m[32m        //instancio en datos la consulta que se envia al metodo hacerConsulta que me devuelve los datos a mostrar[m
+[32m+[m[32m        $datos = $this->gestorBD->hacerConsulta($sql);[m
+[32m+[m[32m        //retorno la variable datos para poder ser utilizada posteriormente al ser llamado el metodo[m
+[32m+[m		[32mreturn $datos;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
