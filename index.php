@@ -22,7 +22,33 @@
     <title>Document</title>
 </head>
 <body>
-    <button  onclick=" location.href='persistencia/controller.php'">mostrar datos</button>
+    <button onclick=" location.href='persistencia/controller.php'">mostrar datos</button>
+
+    <form action="persistencia/controller.php" method="POST">
+      <p>
+      Nombre: <input type="text" name="nombre" autofocus required />
+      <br />
+      Apellido: <input type="text" name="apellido" required />
+      <br />
+      telefono: <input type="text" name="telefono" required />
+      <br />
+      direccion: <input type="text" name="direccion" required />
+      <br />
+      fecha de Nacimiento: <input type="date" name="fechaNacimiento" required />
+      <br />
+      ciudad: <input type="text" name="ciudad" required />
+      <br />    
+      Tipo de Documento: <input type="text" name="tipoDocumento" required />
+      <br />
+      Numero de Documento: <input type="text" name="numeroDocumento"  required/>
+      <br />
+      <input type="submit" value="Submit!" />
+      </p>
+      </form>
+
+
+
+
 </body>
 </html>
 

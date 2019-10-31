@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 require_once('db.php');
 class Modelo {
     //variable en donde guardo los datos de la conexion
@@ -19,4 +19,29 @@ class Modelo {
 		return $datos;
     }
 
+    public function agregarCliente($registros){
+      
+            //code...
+           // SET NOCOUNT ON;
+        $sql="
+            
+
+            DECLARE @nombre nvarchar(25)='".$registros['nombre']."';
+            DECLARE @apellido nvarchar(25)='".$registros['apellido']."';
+            DECLARE @telefono nvarchar(15)='".$registros['telefono']."';
+            DECLARE @direccion nvarchar(15)='".$registros['direccion']."';
+            DECLARE @fechaNacimiento date='".$registros['fechaNacimiento']."';
+            DECLARE @ciudad nvarchar(30)='".$registros['ciudad']."';
+            DECLARE @tipoDocumento nvarchar(15)='".$registros['tipoDocumento']."';
+            DECLARE @numeroDocumento nvarchar(15)='".$registros['numeroDocumento']."';
+
+            
+
+            INSERT INTO dbo.clientes (nombre, apellido, telefono, direccion, fechaNacimiento, ciudad, tipoDocumento, numeroDocumento) VALUES(@nombre, @apellido, @telefono, @direccion, @fechaNacimiento, @ciudad, @tipoDocumento, @numeroDocumento);";
+            
+          
+       $datos = $this->gestorBD->hacerInsert($sql);
+        //return $datos;
+     }
+     
 }

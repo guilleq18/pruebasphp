@@ -4,7 +4,7 @@
 	class db{
 		private $user; /*usuario de la bd*/
 		private $pass; /*password de la bd*/
-		private $conn; /*Conector*/
+		private $conn; /*variable para almacenar la Coneccion*/
 		private $nameDB; /*nombre de la bd*/
 		private $host; /*Host de la bd*/
 
@@ -51,7 +51,7 @@
 			try{
 				$stmt = $this->conn->prepare($sql);
 				$stmt->execute();
-
+				
 				$result =  $this->conn->lastInsertId();
 				
 				return $result;

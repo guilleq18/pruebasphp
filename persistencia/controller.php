@@ -4,44 +4,23 @@ header('Content-Type: text/html; charset=utf-8');
 //error_reporting(E_ALL);
 require_once('modelo/modelo.php');
 $modelo=new Modelo();
-    $result = $modelo->traerCliente();
-    print_r ($result);
+    /*$result = $modelo->traerCliente();
+    print_r ($result);*/
+	
+		$registros['nombre']=$_POST['nombre'];
+		$registros['apellido']=$_POST['apellido'];
+		$registros['telefono']=$_POST['telefono'];
+		$registros['direccion']=$_POST['direccion'];
+		$registros['fechaNacimiento']=$_POST['fechaNacimiento'];
+		$registros['ciudad']=$_POST['ciudad'];
+		$registros['tipoDocumento']=$_POST['tipoDocumento'];
+		$registros['numeroDocumento']=$_POST['numeroDocumento'];
+		$result = $modelo->agregarCliente($registros);
+		
+		header("location:../index.php");
 
+		
 /*
-	if($tipo=='clasificaciones'){
-		$result = $modelo->traerClasificaciones();
-		if(isset($result)){
-			echo $result;
-		}
-	}
-	if($tipo=='laboratorios'){
-		$result = $modelo->traerLaboratorios();
-		if(isset($result)){
-			echo $result;
-		}
-	}
-	if($tipo=='orden'){
-		$registros['clasificacion']=$_POST['clasificacion'];
-		$registros['codigoLaboratorio']=$_POST['codigoLaboratorio'];
-		$result = $modelo->traerOrden($registros);
-		if(isset($result)){
-			echo $result;
-		}
-	}
-	if($tipo=='agregar'){
-		$registros['clasificacion']=$_POST['clasificacion'];
-		$registros['codigoLaboratorio']=$_POST['codigoLaboratorio'];
-		$registros['orden']=$_POST['orden'];
-		$registros['tCondicion']=$_POST['tCondicion'];
-		$registros['vCondicion']=$_POST['vCondicion'];
-		$registros['vCondicion2']=$_POST['vCondicion2'];
-		$registros['tRegla']=$_POST['tRegla'];
-		$registros['vRegla']=$_POST['vRegla'];
-		$result = $modelo->agregarRegla($registros);
-		if(isset($result)){
-			echo $result;
-		}
-	}
 	if($tipo=='eliminar'){
 		$registros['clasificacion']=$_POST['clasificacion'];
 		$registros['codigoLaboratorio']=$_POST['codigoLaboratorio'];
