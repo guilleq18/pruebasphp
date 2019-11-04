@@ -4,8 +4,18 @@ header('Content-Type: text/html; charset=utf-8');
 //error_reporting(E_ALL);
 require_once('modelo/modelo.php');
 $modelo=new Modelo();
-    /*$result = $modelo->traerCliente();
-    print_r ($result);*/
+$seleccion = $_POST['seleccion'];
+
+////////////INSERTAR CLIENTES///////////
+if ($seleccion==1){ 
+//comprobacion si el registro que se desea insertar ya existe
+	$dni=$_POST['numeroDocumento'];
+    $resultComparacion = $modelo->consultaRegistros($dni);
+    if($resultComparacion==TRUE){
+
+		echo ("2");
+
+	}else{ 
 	
 		$registros['nombre']=$_POST['nombre'];
 		$registros['apellido']=$_POST['apellido'];
@@ -16,8 +26,16 @@ $modelo=new Modelo();
 		$registros['tipoDocumento']=$_POST['tipoDocumento'];
 		$registros['numeroDocumento']=$_POST['numeroDocumento'];
 		$result = $modelo->agregarCliente($registros);
-		
-		header("location:../index.php");
+		echo ("1");
+	}
+	//////////////////////////////////////
+
+}else if ($seleccion==0){
+
+	$result = $modelo->hacerConsulta();
+	return $result;
+	
+}
 
 		
 /*

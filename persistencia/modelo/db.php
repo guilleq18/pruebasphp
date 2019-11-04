@@ -51,7 +51,7 @@
 			try{
 				$stmt = $this->conn->prepare($sql);
 				$stmt->execute();
-				
+				//sacar
 				$result =  $this->conn->lastInsertId();
 				
 				return $result;
@@ -74,7 +74,7 @@
 	   }
 
 	   /*Hace la consulta sql*/
-		public function hacerConsultaPhp($sql){
+		public function hacerConsultaregistros($sql){
 			try{
 				$stmt = $this->conn->prepare($sql);
 				$stmt->execute();

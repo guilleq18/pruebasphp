@@ -18,13 +18,20 @@ class Modelo {
         //retorno la variable datos para poder ser utilizada posteriormente al ser llamado el metodo
 		return $datos;
     }
+    public function consultaRegistros($dni)
+    {
+        $sql = "SELECT cl.numeroDocumento FROM clientes cl where numeroDocumento=$dni";
+        //instancio en datos la consulta que se envia al metodo hacerConsulta que me devuelve los datos a mostrar
+        $datos = $this->gestorBD->hacerConsultaregistros($sql);
+        //retorno la variable datos para poder ser utilizada posteriormente al ser llamado el metodo
+		return $datos;
+    }
 
     public function agregarCliente($registros){
       
             //code...
            // SET NOCOUNT ON;
-        $sql="
-            
+        $sql="           
 
             DECLARE @nombre nvarchar(25)='".$registros['nombre']."';
             DECLARE @apellido nvarchar(25)='".$registros['apellido']."';
