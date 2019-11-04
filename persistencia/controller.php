@@ -12,7 +12,7 @@ if ($seleccion==1){
 	$dni=$_POST['numeroDocumento'];
     $resultComparacion = $modelo->consultaRegistros($dni);
     if($resultComparacion==TRUE){
-
+		//imprimiendo esto puedo mostrar mensajes desde jquery en el index
 		echo ("2");
 
 	}else{ 
